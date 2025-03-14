@@ -22,15 +22,13 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
         
       - name: "Set up Docker"
-        run: -|
-        sudo apt-get update
-        sudo apt-get install -y docker.io
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
 
       - name: "Build and push container"
-        run: |-
+        run: |
           IMAGE_TAG="${GITHUB_REF#refs/*/}"
-
           IMAGE_NAME="${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${IMAGE_TAG}"
-
           docker build -f docker/prod.Dockerfile -t "${IMAGE_NAME}" .
           docker push "${IMAGE_NAME}"
